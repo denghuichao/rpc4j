@@ -8,11 +8,11 @@ import org.hcdeng.rpc4j.common.entity.RpcResponse;
 /**
  * Created by hcdeng on 2017/3/29.
  */
-public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
+public class Rpc4jClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
 
     private SettableFuture<RpcResponse> future;
 
-    public RpcClientHandler(SettableFuture<RpcResponse> future){
+    public Rpc4jClientHandler(SettableFuture<RpcResponse> future){
         this.future = future;
     }
 

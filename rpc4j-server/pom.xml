@@ -21,6 +21,7 @@
         <dependency>
             <groupId>org.hcdeng.rpc4j</groupId>
             <artifactId>rpc4j-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

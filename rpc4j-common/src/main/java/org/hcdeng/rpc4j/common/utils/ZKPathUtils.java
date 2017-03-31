@@ -13,7 +13,6 @@ public class ZKPathUtils {
     //provider node should be like "/rpc4j/service/serviceName/127.0.0.1:4080"
     private static final String IP_PATTERN = "((?:(?:25[0-5]|2[0-4]\\d|(?:1\\d{2}|[1-9]?\\d))\\.){3}(?:25[0-5]|2[0-4]\\d|(?:1\\d{2}|[1-9]?\\d)))";
     private static final String ZK_PROVIDER_NODE_PATTERN = Constants.ZK_SERVICE_PATH_PREFIX+"/"+"[^/]+/"+IP_PATTERN+":\\d+";
-    private static final int ZK_PROVIDER_NODE_DEPTH = 4;
 
     //service node should be like "/rpc4j/service/serviceName"
     private static final int ZK_SERVICE_NODE_DEPTH = 3;

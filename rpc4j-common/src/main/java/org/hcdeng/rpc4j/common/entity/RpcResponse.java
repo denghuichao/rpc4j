@@ -8,23 +8,23 @@ import java.io.Serializable;
  * Created by hcdeng on 2017/3/29.
  */
 public class RpcResponse implements Serializable{
-    private long requestId;
+    private String requestId;
     private int resultCode;
     private Object responseObject;
 
     public RpcResponse() {}
 
-    public RpcResponse(long requestId, int resultCode, Object responseObject) {
+    public RpcResponse(String requestId, int resultCode, Object responseObject) {
         this.requestId = requestId;
         this.resultCode = resultCode;
         this.responseObject = responseObject;
     }
 
-    public long getRequestId() {
+    public String getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(long requestId) {
+    public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
 

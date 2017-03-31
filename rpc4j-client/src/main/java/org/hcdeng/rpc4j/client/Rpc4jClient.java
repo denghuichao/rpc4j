@@ -42,7 +42,7 @@ public class Rpc4jClient {
                     .option(ChannelOption.SO_KEEPALIVE, true)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new RpcDecoder(), new RpcEncoder(), new RpcClientHandler(future));
+                            ch.pipeline().addLast(new RpcDecoder(), new RpcEncoder(), new Rpc4jClientHandler(future));
                         }
                     });
 
