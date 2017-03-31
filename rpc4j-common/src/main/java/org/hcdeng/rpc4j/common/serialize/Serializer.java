@@ -1,6 +1,8 @@
 package org.hcdeng.rpc4j.common.serialize;
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
+import com.caucho.hessian.io.HessianInput;
+import com.caucho.hessian.io.HessianOutput;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,15 +13,20 @@ import java.io.IOException;
  */
 public class Serializer {
     public static byte[] serialize(Object t) throws IOException{
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        Hessian2Output oos = new Hessian2Output(bos);
-        oos.writeObject(t);
-        return bos.toByteArray();
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        Hessian2Output oos = new Hessian2Output(bos);
+//        oos.writeObject(t);
+//        return bos.toByteArray();
+
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        HessianOutput ho = new HessianOutput(os);
+        ho.writeObject(t);
+        return os.toByteArray();
     }
 
     public static Object deserialize(byte[] bytes) throws IOException{
         ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        Hessian2Input hi = new Hessian2Input(bis);
+        HessianInput hi = new HessianInput(bis);
         return hi.readObject();
     }
 }

@@ -38,7 +38,7 @@ public class Rpc4jServiceServer {
             synchronized (Rpc4jServiceServer.class){
                 if(!started){
                     try {
-                        Rpc4jServer.startUp();
+                        Rpc4jServer.startUp(port);
                         RegistryManager.startUp();
                     }catch (Exception e){
                         LOGGER.warn("fail to start the service server: "+e.getMessage());

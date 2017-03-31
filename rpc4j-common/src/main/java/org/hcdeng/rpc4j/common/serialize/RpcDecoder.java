@@ -19,7 +19,8 @@ public class RpcDecoder  extends ByteToMessageDecoder {
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         LOGGER.info("decoding start...");
 
-        if(in.readableBytes() < 4){
+        int readaleBytes = in.readableBytes();
+        if( readaleBytes < 4){
             LOGGER.info("no enough bytes to read");
             return;
         }
@@ -36,7 +37,9 @@ public class RpcDecoder  extends ByteToMessageDecoder {
 
         byte[] bytes = new byte[dataLen];
         in.readBytes(bytes);
-        out.add(Serializer.deserialize(bytes));
+
+        Object o = Serializer.deserialize(bytes);
+        out.add(o);
 
         LOGGER.info("finish decode");
     }

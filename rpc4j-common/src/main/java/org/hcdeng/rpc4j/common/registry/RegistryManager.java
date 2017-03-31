@@ -17,8 +17,7 @@ import org.hcdeng.rpc4j.common.utils.ZKPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -29,17 +28,17 @@ import java.util.concurrent.TimeUnit;
 public class RegistryManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistryManager.class);
 
-    private static Executor curatorThreadPoool = Executors.newFixedThreadPool(10);
+    private static Executor curatorThreadPoool = Executors.newFixedThreadPool(8);
 
     private static CuratorFramework client;
 
     private static volatile boolean started = false;
 
-    public static void startUp()throws Exception{
-        if(!started){
-            synchronized (RegistryManager.class){
-                String zkAddress = ConfigManager.instance().getProperty(Constants.ZK_ADDRESS);
-                RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000,3);
+    public static void startUp() throws Exception {
+        if (!started) {
+            synchronized (RegistryManager.class) {
+                String zkAddress = ConfigManager.instance().getProperty(Constants.ZK_ADDRESS, "192.168.125.130:2181");
+                RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
                 client = CuratorFrameworkFactory.newClient(zkAddress, retryPolicy);
                 client.start();
 
@@ -48,19 +47,22 @@ public class RegistryManager {
                 //节点变化事件监听器注册
                 cache.getListenable().addListener(new ProviderNodeEventListenner(), curatorThreadPoool);
                 cache.start();
-                started = client.blockUntilConnected(1000, TimeUnit.MICROSECONDS);
+                Thread.sleep(100);
+                started = client.blockUntilConnected(-1, TimeUnit.MILLISECONDS);
+
+                LOGGER.info("registry started: " + started);
             }
         }
     }
 
-    public static boolean publishService(String serviceName, String host, int port){
-        if(!started)
+    public static boolean publishService(String serviceName, String host, int port) {
+        if (!started)
             throw new IllegalStateException("the rigister is not started yet!");
 
-        if(Strings.isNullOrEmpty(host))
+        if (Strings.isNullOrEmpty(host))
             throw new IllegalArgumentException("the host must not be empty!");
 
-        String serverPath = ZKPathUtils.formatProviderPath(serviceName, host,port);
+        String serverPath = ZKPathUtils.formatProviderPath(serviceName, host, port);
         try {
             String s = client.create().creatingParentsIfNeeded().withMode(CreateMode.EPHEMERAL).forPath(serverPath);
             if (Strings.isNullOrEmpty(s)) {
@@ -68,7 +70,7 @@ public class RegistryManager {
                 return false;
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             LOGGER.warn("error when add service to zk:" + e.getMessage());
             return false;
         }
@@ -76,11 +78,12 @@ public class RegistryManager {
 
     /**
      * 加载一个服务所有可用provider信息
+     *
      * @param serviceName
      * @return
      */
-    public static List<ServiceProvider> loadProviders(String serviceName){
-        if(!started)
+    public static List<ServiceProvider> loadProviders(String serviceName) {
+        if (!started)
             throw new IllegalStateException("the rigister is not started yet!");
 
         try {
@@ -94,8 +97,25 @@ public class RegistryManager {
                 return null;
             });
             return providers;
-        }catch (Exception e){
+        } catch (Exception e) {
             return Collections.EMPTY_LIST;
+        }
+    }
+
+    public static Map<String, List<ServiceProvider>> loadProviders() {
+        if (!started)
+            throw new IllegalStateException("the rigister is not started yet!");
+
+        try {
+            List<String> list = client.getChildren().watched().forPath(Constants.ZK_SERVICE_PATH_PREFIX);
+            Map<String, List<ServiceProvider>> providers = new HashMap<>();
+            for (String p : list) {
+                List<ServiceProvider> pl = loadProviders(p);
+                providers.put(p, pl);
+            }
+            return providers;
+        } catch (Exception e) {
+            return Collections.EMPTY_MAP;
         }
     }
 }

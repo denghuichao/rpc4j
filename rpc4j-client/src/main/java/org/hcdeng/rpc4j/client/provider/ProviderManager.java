@@ -21,11 +21,17 @@ public class ProviderManager {
 
     private static Map<String, List<ServiceProvider>> providerMap = new ConcurrentHashMap<String, List<ServiceProvider>>();
 
-    static {
+    private static ProviderManager INSTANCE = new ProviderManager();
+
+    private ProviderManager(){
         startUp();
     }
 
     public static ServiceProvider getProvider(String serviceName) {
+        return INSTANCE.getProvider_inner(serviceName);
+    }
+
+    private ServiceProvider getProvider_inner(String serviceName) {
         List<ServiceProvider> list = providerMap.get(serviceName);
         if (CollectionUtils.isEmpty(list)) {
             throw new RuntimeException("can not find service named " + serviceName + " in the registry!");
@@ -34,17 +40,20 @@ public class ProviderManager {
         return list.get(new Random().nextInt(list.size()));
     }
 
-    private static void loadProvidersOfService(String serviceName){
-        providerMap.put(serviceName,RegistryManager.loadProviders(serviceName));
+    private void loadProvidersOfService(String serviceName) {
+        providerMap.put(serviceName, RegistryManager.loadProviders(serviceName));
     }
 
-    private static void startUp(){
+    private void startUp() {
         try {
             ProviderListennerManager.instance().registerProviderListenner(
-                    (serviceName)->{loadProvidersOfService(serviceName);});
+                    (serviceName) -> {
+                        loadProvidersOfService(serviceName);
+                    });
             RegistryManager.startUp();
-        }catch (Exception e){
-            LOGGER.warn("fail to start the ProviderManager: "+e.getMessage());
+            providerMap.putAll(RegistryManager.loadProviders());
+        } catch (Exception e) {
+            LOGGER.warn("fail to start the ProviderManager: " + e.getMessage());
         }
     }
 }

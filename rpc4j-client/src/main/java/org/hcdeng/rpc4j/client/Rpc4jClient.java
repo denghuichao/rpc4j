@@ -60,7 +60,8 @@ public class Rpc4jClient {
                 }
             });
 
-            return future.get(2000, TimeUnit.MICROSECONDS);
+            return future.get(1000, TimeUnit.MILLISECONDS);
+
         } finally {
             group.shutdownGracefully();
         }

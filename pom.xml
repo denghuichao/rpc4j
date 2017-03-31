@@ -9,6 +9,7 @@
         <module>rpc4j-common</module>
         <module>rpc4j-client</module>
         <module>rpc4j-server</module>
+        <module>rpc4j-demo</module>
     </modules>
     <packaging>pom</packaging>
 

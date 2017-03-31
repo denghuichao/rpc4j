@@ -44,6 +44,10 @@ public class ConfigManager {
     }
 
     public String getProperty(String key) {
-        return properties.getProperty(key);
+        return getProperty(key, null);
+    }
+
+    public String getProperty(String key, String defaultValue) {
+        return properties.getProperty(key, defaultValue);
     }
 }

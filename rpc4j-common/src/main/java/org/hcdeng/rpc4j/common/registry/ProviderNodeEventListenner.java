@@ -26,13 +26,11 @@ public class ProviderNodeEventListenner implements TreeCacheListener{
     private boolean isProviderNodeEvent(TreeCacheEvent treeCacheEvent){
         if(treeCacheEvent == null)return false;
 
-        String path = treeCacheEvent.getData().getPath();
-        if(!ZKPathUtils.isValidProviderPath(path))return false;
-
-        if(treeCacheEvent.getType() == TreeCacheEvent.Type.NODE_ADDED)
-            return true;
-
+        if(treeCacheEvent.getType() == TreeCacheEvent.Type.NODE_ADDED) {
+            String path = treeCacheEvent.getData().getPath();
+            if (ZKPathUtils.isValidProviderPath(path))
+                return true;
+        }
         return false;
     }
-
 }

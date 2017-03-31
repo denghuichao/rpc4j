@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
+
+    <bean id="demoService" class="org.hcdeng.rpc4j.demo.impl.DemoServiceImpl" />
+
+    <bean class="org.hcdeng.rpc4j.server.Rpc4jServiceBean" init-method="init">
+        <property name="serviceName" value="org.hcdeng.rpc4j.demo.api.DemoService"/>
+        <property name="actualImpl" ref="demoService"/>
+    </bean>
+
+</beans>

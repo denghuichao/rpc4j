@@ -2,10 +2,12 @@ package org.hcdeng.rpc4j.common.entity;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.Serializable;
+
 /**
  * Created by hcdeng on 2017/3/29.
  */
-public class RpcRequset {
+public class RpcRequset implements Serializable{
     private String requestId;
     private String serviceName;
     private String methodName;
