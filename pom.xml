@@ -10,6 +10,7 @@
         <module>rpc4j-client</module>
         <module>rpc4j-server</module>
         <module>rpc4j-demo</module>
+        <module>rpc4j-framework</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -52,6 +53,27 @@
             <version>3.2.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>4.0.38</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-client</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>2.11.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>2.11.1</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>

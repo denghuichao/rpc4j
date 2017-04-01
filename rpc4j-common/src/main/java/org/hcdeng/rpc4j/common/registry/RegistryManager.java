@@ -47,9 +47,10 @@ public class RegistryManager {
                 //节点变化事件监听器注册
                 cache.getListenable().addListener(new ProviderNodeEventListenner(), curatorThreadPoool);
                 cache.start();
-                Thread.sleep(100);
-                started = client.blockUntilConnected(-1, TimeUnit.MILLISECONDS);
 
+                while(!started) {
+                    started = client.blockUntilConnected(-1, TimeUnit.MILLISECONDS);
+                }
                 LOGGER.info("registry started: " + started);
             }
         }
