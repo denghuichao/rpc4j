@@ -37,6 +37,7 @@ public class ProviderManager {
             throw new RuntimeException("can not find service named " + serviceName + " in the registry!");
         }
 
+        //负载均衡策略，简单的随机负载均衡
         return list.get(new Random().nextInt(list.size()));
     }
 
@@ -47,9 +48,8 @@ public class ProviderManager {
     private void startUp() {
         try {
             ProviderListennerManager.instance().registerProviderListenner(
-                    (serviceName) -> {
-                        loadProvidersOfService(serviceName);
-                    });
+                    (serviceName) -> {loadProvidersOfService(serviceName);});
+
             RegistryManager.startUp();
             providerMap.putAll(RegistryManager.loadProviders());
         } catch (Exception e) {
