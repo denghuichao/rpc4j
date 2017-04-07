@@ -7,6 +7,9 @@ public class Rpc4jServiceBean {
     private String serviceName;
     private Object actualImpl;
 
+    /**
+     * 实例化服务bean后发布该服务
+     */
     public void init(){
         Rpc4jServiceServer.addService(serviceName, actualImpl);
     }

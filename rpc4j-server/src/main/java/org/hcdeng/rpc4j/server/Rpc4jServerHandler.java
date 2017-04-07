@@ -15,7 +15,15 @@ import java.lang.reflect.Method;
  * Created by hcdeng on 2017/3/31.
  */
 public class Rpc4jServerHandler extends SimpleChannelInboundHandler<RpcRequset>{
+
     private static Logger LOGGER = LoggerFactory.getLogger(Rpc4jServerHandler.class);
+
+    /**
+     * 处理RPC调用请求，获取服务的实际实现对象，并调用请求的方法
+     * @param ctx
+     * @param msg RPC请求体
+     * @throws Exception
+     */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, RpcRequset msg) throws Exception {
         Object impl = Rpc4jServiceServer.getActualImpl(msg.getServiceName());

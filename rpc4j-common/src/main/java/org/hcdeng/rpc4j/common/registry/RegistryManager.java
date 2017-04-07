@@ -79,7 +79,6 @@ public class RegistryManager {
 
     /**
      * 加载一个服务所有可用provider信息
-     *
      * @param serviceName
      * @return
      */

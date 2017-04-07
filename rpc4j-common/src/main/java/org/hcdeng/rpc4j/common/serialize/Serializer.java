@@ -12,12 +12,8 @@ import java.io.IOException;
  * Created by hcdeng on 2017/3/29.
  */
 public class Serializer {
-    public static byte[] serialize(Object t) throws IOException{
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        Hessian2Output oos = new Hessian2Output(bos);
-//        oos.writeObject(t);
-//        return bos.toByteArray();
 
+    public static byte[] serialize(Object t) throws IOException{
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         HessianOutput ho = new HessianOutput(os);
         ho.writeObject(t);

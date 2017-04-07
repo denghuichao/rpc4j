@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
  * Created by hcdeng on 2017/3/29.
  */
 public class RpcEncoder extends MessageToByteEncoder{
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcEncoder.class);
 
     @Override

@@ -8,8 +8,6 @@ import java.util.List;
  */
 public final class ProviderListennerManager implements ProviderListenner{
 
-    private static  ProviderListennerManager INSTANCE;
-
     /**
      * listenners for provider node state change events
      */
@@ -18,18 +16,11 @@ public final class ProviderListennerManager implements ProviderListenner{
     private ProviderListennerManager(){}
 
     /**
-     * double-ckecked single instance
+     * single instance
      * @return single instance of ProviderListennerManager
      */
     public static ProviderListennerManager instance(){
-        if(INSTANCE == null){
-            synchronized (ProviderListennerManager.class){
-                if(INSTANCE == null){
-                    INSTANCE = new ProviderListennerManager();
-                }
-            }
-        }
-        return INSTANCE;
+        return ProviderListennerManagerHolder.MANAGER_INSTANCE;
     }
 
     public void registerProviderListenner(ProviderListenner listenner){
@@ -44,5 +35,9 @@ public final class ProviderListennerManager implements ProviderListenner{
     public void onProviderChange(String serviceName) {
         for(ProviderListenner listenner : listenners)
             listenner.onProviderChange(serviceName);
+    }
+
+    private static class ProviderListennerManagerHolder{
+        private static final ProviderListennerManager MANAGER_INSTANCE = new ProviderListennerManager();
     }
 }

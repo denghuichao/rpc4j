@@ -10,19 +10,10 @@ import java.util.Properties;
 public class ConfigManager {
     private static final String CLASSPATH_CONFIG_PATH = "/rpc4j.properties";
 
-    private static volatile ConfigManager INSTANCE;
-
     private Properties properties;
 
     public static ConfigManager instance() {
-        if (INSTANCE == null) {
-            synchronized (ConfigManager.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new ConfigManager();
-                }
-            }
-        }
-        return INSTANCE;
+        return ConfigManagerHolder.CONFIG_MANAGER_INSTANCE;
     }
 
     private ConfigManager() {
@@ -49,5 +40,9 @@ public class ConfigManager {
 
     public String getProperty(String key, String defaultValue) {
         return properties.getProperty(key, defaultValue);
+    }
+
+    private static class ConfigManagerHolder{
+        private static final ConfigManager CONFIG_MANAGER_INSTANCE = new ConfigManager();
     }
 }

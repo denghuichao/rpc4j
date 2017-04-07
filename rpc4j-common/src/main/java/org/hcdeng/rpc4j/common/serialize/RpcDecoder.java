@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by hcdeng on 2017/3/29.
  */
-public class RpcDecoder  extends ByteToMessageDecoder {
+public class RpcDecoder extends ByteToMessageDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RpcEncoder.class);
 
@@ -20,18 +20,18 @@ public class RpcDecoder  extends ByteToMessageDecoder {
         LOGGER.info("decoding start...");
 
         int readaleBytes = in.readableBytes();
-        if( readaleBytes < 4){
+        if (readaleBytes < 4) {
             LOGGER.info("no enough bytes to read");
             return;
         }
 
         int dataLen = in.readInt();
-        if(dataLen < 0){
+        if (dataLen < 0) {
             ctx.close();
             return;
         }
 
-        if(in.readableBytes() < dataLen){
+        if (in.readableBytes() < dataLen) {
             in.resetReaderIndex();
         }
 
