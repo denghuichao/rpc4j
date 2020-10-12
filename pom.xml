@@ -29,7 +29,7 @@
         <commons-collections.version>3.2.2</commons-collections.version>
         <hessian.version>4.0.38</hessian.version>
         <curator.version>2.11.1</curator.version>
-        <junit.version>4.8.1</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <dependencyManagement>
